@@ -1,0 +1,83 @@
+<h3>
+  [2017-06-27] Challenge #321 [Easy] Talking Clock <a href="https://redd.it/6jr76h">https://redd.it/6jr76h</a>
+</h3>
+
+<input id="funInput" type="text">
+<button onclick="onInputSubmitted()"></button>
+<div id="answer"></div>
+
+<script type="text/javascript">
+function onInputSubmitted() {
+  let inputVal = document.getElementById("funInput").value;
+  translateToTime(inputVal);
+}
+
+function printToScreen(input) {
+  var node = document.createElement("p");
+  node.appendChild(document.createTextNode(input));
+  document.getElementById("answer").appendChild(node);
+}
+
+function translateToTime(inputVal) {
+  translationTable = {
+    "-1": "",
+    0: "oh",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten",
+    11: "eleven",
+    12: "twelve",
+    13: "thirteen",
+    14: "fourteen",
+    15: "fifteen",
+    16: "sixteen",
+    17: "seventeen",
+    18: "eightteen",
+    19: "nineteen",
+    20: "twenty",
+    30: "thirty",
+    40: "forty",
+    50: "fifty"
+  };
+  let a = inputVal.split(":");
+  let hour = a[0];
+  let minute = a[1];
+  let outputString = "It's ";
+
+  // 12 needs to be said explicitly, since 0 != 12, edge case.
+  let hourString =
+    hour == 12 ? translationTable[12] : translationTable[hour % 12];
+  outputString += hourString + " ";
+
+  // Scoping is weird here - have to look into that more.
+  let minDigitLarge = 0;
+  let minDigitSmall = 0;
+
+  // Have to watch out for the teens, which have different lexical rules.
+  if (minute >= 20) {
+    minDigitLarge = minute[0] * 10;
+    minDigitSmall = minute[1] == 0 ? -1 : minute[1];
+  } else {
+    minDigitLarge = minute;
+    minDigitSmall = -1;
+  }
+
+  // If it's on the hour, don't include minutes.
+  if (minute == 0) {
+    minDigitLarge = -1;
+    minDigitSmall = -1;
+  }
+  
+  outputString += translationTable[minDigitLarge] + " ";
+  outputString += translationTable[minDigitSmall] + " ";
+  outputString += hour < 12 ? "am" : "pm";
+  printToScreen(outputString);
+}
+</script>
