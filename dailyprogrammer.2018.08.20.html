@@ -1,0 +1,58 @@
+<h3>
+  [2018-08-20] Challenge #366 [Easy] Word funnel 1: <a href="https://www.reddit.com/r/dailyprogrammer/comments/98ufvz/20180820_challenge_366_easy_word_funnel_1/">https://www.reddit.com/r/dailyprogrammer/comments/98ufvz/20180820_challenge_366_easy_word_funnel_1/</a>
+</h3>
+
+<input id="input1" type="text">
+<input id="input2" type="text">
+<button onclick="onInputSubmitted()">Submit</button>
+<div id="answer"></div>
+
+<script type="text/javascript">
+  function onInputSubmitted() {
+    var input1 = document.getElementById("input1").value;
+    var input2 = document.getElementById("input2").value;
+    printToScreen(input1 + " - " + input2 + " -> " + solution(input1, input2));
+  }
+
+  function printToScreen(input) {
+    var node = document.createElement("p");
+    node.appendChild(document.createTextNode(input));
+    document.getElementById("answer").appendChild(node);
+  }
+
+  function solution(input, input2) {
+    debugger
+    if (input2.length != input.length - 1) {
+      return false
+    }
+    let secondIndex = 0
+    let index = 0
+    for (; index < input.length; index++) {
+      if (input[index] === input2[secondIndex]) {
+        secondIndex++
+        continue
+      }
+      if (input[index + 1] === input2[secondIndex]) {
+        secondIndex++
+        index++
+        continue
+      }
+      return false
+    }
+    return index - secondIndex == 1
+  }
+
+  function test() {
+    function assert(condition) {
+      if (!condition) {
+        throw "Assertion failed";
+      }
+    }
+    assert(solution("leave", "eave"))
+    assert(solution("reset", "rest"))
+    assert(solution("dragoon", "dragon"))
+    assert(!solution("eave", "leave"))
+    assert(!solution("sleet", "lets"))
+    assert(!solution("skiff", "ski"))
+  }
+</script>
